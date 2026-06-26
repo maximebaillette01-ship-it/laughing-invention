@@ -1,0 +1,71 @@
+<%- include('../partials/header') %>
+<div class="page-header">
+  <h1><%= record.nom %></h1>
+  <div class="page-header-actions">
+    <a class="button button-secondary" href="/clients/<%= record.id %>/edit">Modifier</a>
+    <form method="POST" action="/clients/<%= record.id %>/delete" class="inline-form" onsubmit="return confirm('Supprimer ce client et toutes ses données liées ?');">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <button type="submit" class="button button-danger">Supprimer</button>
+    </form>
+  </div>
+</div>
+
+<section class="card">
+  <h2>Coordonnées</h2>
+  <p><strong>Entreprise :</strong> <%= record.entreprise || '—' %></p>
+  <p><strong>E-mail :</strong> <%= record.email || '—' %></p>
+  <p><strong>Téléphone :</strong> <%= record.telephone || '—' %></p>
+  <p><strong>Adresse :</strong> <%= record.adresse || '—' %></p>
+  <% if (record.notes) { %><p><strong>Notes :</strong> <%= record.notes %></p><% } %>
+</section>
+
+<section class="card">
+  <div class="page-header">
+    <h2>Chantiers (<%= chantiers.length %>)</h2>
+    <a class="button button-small" href="/chantiers/new?client_id=<%= record.id %>">+ Nouveau chantier</a>
+  </div>
+  <% if (!chantiers.length) { %>
+    <p class="muted">Aucun chantier.</p>
+  <% } else { %>
+    <ul class="link-list">
+      <% chantiers.forEach(function(ch) { %>
+        <li><a href="/chantiers/<%= ch.id %>"><%= ch.titre %></a> <span class="badge badge-<%= ch.statut %>"><%= ch.statut %></span></li>
+      <% }); %>
+    </ul>
+  <% } %>
+</section>
+
+<section class="card">
+  <div class="page-header">
+    <h2>Devis (<%= devis.length %>)</h2>
+    <a class="button button-small" href="/devis/new?client_id=<%= record.id %>">+ Nouveau devis</a>
+  </div>
+  <% if (!devis.length) { %>
+    <p class="muted">Aucun devis.</p>
+  <% } else { %>
+    <ul class="link-list">
+      <% devis.forEach(function(d) { %>
+        <li><a href="/devis/<%= d.id %>">DEV-<%= String(d.id).padStart(4, '0') %></a>
+          — <%= d.total_ttc.toFixed(2) %> € <span class="badge badge-<%= d.statut %>"><%= d.statut %></span></li>
+      <% }); %>
+    </ul>
+  <% } %>
+</section>
+
+<section class="card">
+  <div class="page-header">
+    <h2>Factures (<%= factures.length %>)</h2>
+    <a class="button button-small" href="/factures/new?client_id=<%= record.id %>">+ Nouvelle facture</a>
+  </div>
+  <% if (!factures.length) { %>
+    <p class="muted">Aucune facture.</p>
+  <% } else { %>
+    <ul class="link-list">
+      <% factures.forEach(function(f) { %>
+        <li><a href="/factures/<%= f.id %>">FAC-<%= String(f.id).padStart(4, '0') %></a>
+          — <%= f.total_ttc.toFixed(2) %> € <span class="badge badge-<%= f.statut %>"><%= f.statut %></span></li>
+      <% }); %>
+    </ul>
+  <% } %>
+</section>
+<%- include('../partials/footer') %>

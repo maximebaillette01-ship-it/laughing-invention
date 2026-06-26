@@ -1,0 +1,67 @@
+<%- include('../partials/header') %>
+<div class="page-header">
+  <h1>Devis DEV-<%= String(devis.id).padStart(4, '0') %> <span class="badge badge-<%= devis.statut %>"><%= STATUT_LABELS[devis.statut] %></span></h1>
+  <div class="page-header-actions">
+    <a class="button button-secondary" href="/devis/<%= devis.id %>/edit">Modifier</a>
+    <form method="POST" action="/devis/<%= devis.id %>/delete" class="inline-form" onsubmit="return confirm('Supprimer ce devis ?');">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <button type="submit" class="button button-danger">Supprimer</button>
+    </form>
+  </div>
+</div>
+
+<section class="card">
+  <p><strong>Client :</strong> <a href="/clients/<%= devis.client_id %>"><%= devis.client_nom %></a></p>
+  <% if (devis.chantier_titre) { %><p><strong>Chantier :</strong> <a href="/chantiers/<%= devis.chantier_id %>"><%= devis.chantier_titre %></a></p><% } %>
+  <p><strong>Date de création :</strong> <%= devis.date_creation.slice(0, 10) %> · <strong>Validité :</strong> <%= devis.date_validite || '—' %></p>
+  <% if (devis.notes) { %><p><strong>Notes :</strong> <%= devis.notes %></p><% } %>
+</section>
+
+<section class="card">
+  <table class="table">
+    <thead>
+      <tr><th>Description</th><th>Quantité</th><th>Unité</th><th>Prix unitaire</th><th>Total</th></tr>
+    </thead>
+    <tbody>
+      <% lignes.forEach(function(l) { %>
+        <tr>
+          <td><%= l.description %></td>
+          <td><%= l.quantite %></td>
+          <td><%= l.unite || '—' %></td>
+          <td><%= l.prix_unitaire.toFixed(2) %> €</td>
+          <td><%= l.total.toFixed(2) %> €</td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+  <div class="totaux-preview">
+    <p>Total HT : <strong><%= devis.total_ht.toFixed(2) %> €</strong></p>
+    <p>TVA (<%= devis.taux_tva %>%) : <strong><%= devis.total_tva.toFixed(2) %> €</strong></p>
+    <p>Total TTC : <strong><%= devis.total_ttc.toFixed(2) %> €</strong></p>
+  </div>
+</section>
+
+<section class="card no-print">
+  <h2>Statut</h2>
+  <form method="POST" action="/devis/<%= devis.id %>/statut" class="inline-form">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <select name="statut">
+      <% STATUTS.forEach(function(s) { %>
+        <option value="<%= s %>" <%= devis.statut === s ? 'selected' : '' %>><%= STATUT_LABELS[s] %></option>
+      <% }); %>
+    </select>
+    <button type="submit" class="button button-small">Mettre à jour le statut</button>
+  </form>
+
+  <% if (devis.statut === 'accepte' && !facture) { %>
+    <form method="POST" action="/devis/<%= devis.id %>/convertir" class="inline-form" style="margin-top: 0.75rem;">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <button type="submit" class="button">Convertir en facture</button>
+    </form>
+  <% } else if (facture) { %>
+    <p style="margin-top: 0.75rem;">Facture liée : <a href="/factures/<%= facture.id %>">FAC-<%= String(facture.id).padStart(4, '0') %></a></p>
+  <% } %>
+
+  <button type="button" class="button button-secondary" onclick="window.print()" style="margin-top: 0.75rem;">Imprimer</button>
+</section>
+<%- include('../partials/footer') %>

@@ -1,0 +1,39 @@
+<%- include('../partials/header') %>
+<div class="page-header">
+  <h1>Devis (<%= devis.length %>)</h1>
+  <a class="button" href="/devis/new">+ Nouveau devis</a>
+</div>
+
+<% if (!devis.length) { %>
+  <p class="muted">Aucun devis pour le moment.</p>
+<% } else { %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Numéro</th>
+        <th>Client</th>
+        <th>Chantier</th>
+        <th>Date</th>
+        <th>Total TTC</th>
+        <th>Statut</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% devis.forEach(function(d) { %>
+        <tr>
+          <td><a href="/devis/<%= d.id %>">DEV-<%= String(d.id).padStart(4, '0') %></a></td>
+          <td><a href="/clients/<%= d.client_id %>"><%= d.client_nom %></a></td>
+          <td><%= d.chantier_titre || '—' %></td>
+          <td><%= d.date_creation.slice(0, 10) %></td>
+          <td><%= d.total_ttc.toFixed(2) %> €</td>
+          <td><span class="badge badge-<%= d.statut %>"><%= STATUT_LABELS[d.statut] %></span></td>
+          <td class="table-actions">
+            <a class="button button-small button-secondary" href="/devis/<%= d.id %>/edit">Modifier</a>
+          </td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+<% } %>
+<%- include('../partials/footer') %>

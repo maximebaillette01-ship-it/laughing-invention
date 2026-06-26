@@ -1,0 +1,41 @@
+<%- include('../partials/header') %>
+<div class="page-header">
+  <h1>Matériaux &amp; stock (<%= materiaux.length %>)</h1>
+  <a class="button" href="/materiaux/new">+ Nouveau matériau</a>
+</div>
+
+<% if (!materiaux.length) { %>
+  <p class="muted">Aucun matériau enregistré.</p>
+<% } else { %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Quantité</th>
+        <th>Seuil d'alerte</th>
+        <th>Prix unitaire</th>
+        <th>Fournisseur</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% materiaux.forEach(function(m) { %>
+        <tr class="<%= m.quantite <= m.seuil_alerte ? 'row-alert' : '' %>">
+          <td><%= m.nom %></td>
+          <td><%= m.quantite %> <%= m.unite %></td>
+          <td><%= m.seuil_alerte %> <%= m.unite %></td>
+          <td><%= m.prix_unitaire != null ? m.prix_unitaire.toFixed(2) + ' €' : '—' %></td>
+          <td><%= m.fournisseur || '—' %></td>
+          <td class="table-actions">
+            <a class="button button-small button-secondary" href="/materiaux/<%= m.id %>/edit">Modifier</a>
+            <form method="POST" action="/materiaux/<%= m.id %>/delete" class="inline-form" onsubmit="return confirm('Supprimer ce matériau ?');">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              <button type="submit" class="button button-small button-danger">Suppr.</button>
+            </form>
+          </td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+<% } %>
+<%- include('../partials/footer') %>

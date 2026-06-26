@@ -1,0 +1,37 @@
+<%- include('../partials/header') %>
+<div class="page-header">
+  <h1>Chantiers (<%= chantiers.length %>)</h1>
+  <a class="button" href="/chantiers/new">+ Nouveau chantier</a>
+</div>
+
+<% if (!chantiers.length) { %>
+  <p class="muted">Aucun chantier pour le moment.</p>
+<% } else { %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Titre</th>
+        <th>Client</th>
+        <th>Statut</th>
+        <th>Début</th>
+        <th>Fin prévue</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% chantiers.forEach(function(ch) { %>
+        <tr>
+          <td><a href="/chantiers/<%= ch.id %>"><%= ch.titre %></a></td>
+          <td><a href="/clients/<%= ch.client_id %>"><%= ch.client_nom %></a></td>
+          <td><span class="badge badge-<%= ch.statut %>"><%= STATUT_LABELS[ch.statut] %></span></td>
+          <td><%= ch.date_debut || '—' %></td>
+          <td><%= ch.date_fin_prevue || '—' %></td>
+          <td class="table-actions">
+            <a class="button button-small button-secondary" href="/chantiers/<%= ch.id %>/edit">Modifier</a>
+          </td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+<% } %>
+<%- include('../partials/footer') %>

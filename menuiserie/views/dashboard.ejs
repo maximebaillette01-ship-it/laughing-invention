@@ -1,0 +1,63 @@
+<%- include('partials/header') %>
+<div class="page-header">
+  <h1>Tableau de bord</h1>
+</div>
+
+<div class="stat-grid">
+  <a class="stat-card" href="/clients">
+    <span class="stat-value"><%= stats.clients %></span>
+    <span class="stat-label">Clients</span>
+  </a>
+  <a class="stat-card" href="/chantiers">
+    <span class="stat-value"><%= stats.chantiersEnCours %></span>
+    <span class="stat-label">Chantiers en cours</span>
+  </a>
+  <a class="stat-card" href="/chantiers">
+    <span class="stat-value"><%= stats.chantiersEnAttente %></span>
+    <span class="stat-label">Chantiers en attente</span>
+  </a>
+  <a class="stat-card" href="/devis">
+    <span class="stat-value"><%= stats.devisEnAttente %></span>
+    <span class="stat-label">Devis envoyés en attente</span>
+  </a>
+  <a class="stat-card <%= stats.facturesImpayees ? 'stat-card-warning' : '' %>" href="/factures">
+    <span class="stat-value"><%= stats.facturesImpayees %></span>
+    <span class="stat-label">Factures impayées</span>
+  </a>
+  <a class="stat-card <%= stats.facturesEnRetard ? 'stat-card-danger' : '' %>" href="/factures">
+    <span class="stat-value"><%= stats.facturesEnRetard %></span>
+    <span class="stat-label">Factures en retard</span>
+  </a>
+  <a class="stat-card <%= stats.materiauxBas ? 'stat-card-danger' : '' %>" href="/materiaux">
+    <span class="stat-value"><%= stats.materiauxBas %></span>
+    <span class="stat-label">Matériaux sous le seuil</span>
+  </a>
+</div>
+
+<section class="card">
+  <h2>Stock bas</h2>
+  <% if (!materiauxBas.length) { %>
+    <p class="muted">Tous les stocks sont au-dessus du seuil d'alerte.</p>
+  <% } else { %>
+    <ul class="link-list">
+      <% materiauxBas.forEach(function(m) { %>
+        <li><a href="/materiaux/<%= m.id %>/edit"><%= m.nom %></a> — <%= m.quantite %> <%= m.unite %> (seuil : <%= m.seuil_alerte %> <%= m.unite %>)</li>
+      <% }); %>
+    </ul>
+  <% } %>
+</section>
+
+<section class="card">
+  <h2>Chantiers récents</h2>
+  <% if (!chantiersRecents.length) { %>
+    <p class="muted">Aucun chantier pour le moment.</p>
+  <% } else { %>
+    <ul class="link-list">
+      <% chantiersRecents.forEach(function(ch) { %>
+        <li><a href="/chantiers/<%= ch.id %>"><%= ch.titre %></a> — <%= ch.client_nom %>
+          <span class="badge badge-<%= ch.statut %>"><%= STATUT_LABELS_CHANTIER[ch.statut] %></span></li>
+      <% }); %>
+    </ul>
+  <% } %>
+</section>
+<%- include('partials/footer') %>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %> · Menuiserie</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="app-layout">
+  <aside class="sidebar">
+    <a class="brand" href="/dashboard">🪵 Menuiserie</a>
+    <nav class="side-nav">
+      <a href="/dashboard" class="<%= currentPath === '/dashboard' ? 'active' : '' %>">Tableau de bord</a>
+      <a href="/clients" class="<%= currentPath.startsWith('/clients') ? 'active' : '' %>">Clients</a>
+      <a href="/materiaux" class="<%= currentPath.startsWith('/materiaux') ? 'active' : '' %>">Matériaux &amp; stock</a>
+      <a href="/chantiers" class="<%= currentPath.startsWith('/chantiers') ? 'active' : '' %>">Chantiers</a>
+      <a href="/devis" class="<%= currentPath.startsWith('/devis') ? 'active' : '' %>">Devis</a>
+      <a href="/factures" class="<%= currentPath.startsWith('/factures') ? 'active' : '' %>">Factures</a>
+    </nav>
+  </aside>
+  <div class="main-wrap">
+    <header class="topbar">
+      <% if (username) { %>
+        <span class="topbar-user"><%= username %></span>
+        <form method="POST" action="/logout" class="inline-form">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <button type="submit" class="button button-secondary button-small">Se déconnecter</button>
+        </form>
+      <% } else { %>
+        <a class="button button-small" href="/login">Connexion</a>
+      <% } %>
+    </header>
+    <main class="content">
