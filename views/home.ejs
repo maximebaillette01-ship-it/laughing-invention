@@ -1,0 +1,29 @@
+<%- include('partials/header') %>
+<section class="hero">
+  <h1>Bienvenue sur SecureSite</h1>
+  <p>Un site vitrine pensé dès sa conception pour être sécurisé : en-têtes durcis, protection CSRF, limitation de débit et authentification robuste pour l'administration.</p>
+  <a class="button" href="/contact">Nous contacter</a>
+</section>
+
+<section class="features">
+  <h2>Nos engagements sécurité</h2>
+  <div class="feature-grid">
+    <article class="feature-card">
+      <h3>En-têtes HTTP durcis</h3>
+      <p>Content-Security-Policy stricte, HSTS, anti-clickjacking et masquage des informations de stack technique.</p>
+    </article>
+    <article class="feature-card">
+      <h3>Protection CSRF / XSS</h3>
+      <p>Jetons anti-CSRF sur chaque formulaire et échappement systématique des contenus affichés.</p>
+    </article>
+    <article class="feature-card">
+      <h3>Authentification robuste</h3>
+      <p>Mots de passe hachés (bcrypt), sessions sécurisées et verrouillage après plusieurs échecs.</p>
+    </article>
+    <article class="feature-card">
+      <h3>Limitation de débit</h3>
+      <p>Protection contre le brute-force et le spam via une limitation des requêtes par IP.</p>
+    </article>
+  </div>
+</section>
+<%- include('partials/footer') %>

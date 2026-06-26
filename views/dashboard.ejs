@@ -1,0 +1,33 @@
+<%- include('partials/header') %>
+<section class="page-section">
+  <div class="dashboard-header">
+    <h1>Tableau de bord</h1>
+    <form method="POST" action="/admin/logout">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <button type="submit" class="button button-secondary">Se déconnecter (<%= adminUsername %>)</button>
+    </form>
+  </div>
+
+  <h2>Messages reçus (<%= messages.length %>)</h2>
+  <% if (!messages.length) { %>
+    <p>Aucun message pour le moment.</p>
+  <% } else { %>
+    <table class="messages-table">
+      <thead>
+        <tr><th>Date</th><th>Nom</th><th>E-mail</th><th>Message</th><th>IP</th></tr>
+      </thead>
+      <tbody>
+        <% messages.forEach(function(m) { %>
+          <tr>
+            <td><%= m.created_at %></td>
+            <td><%= m.name %></td>
+            <td><%= m.email %></td>
+            <td><%= m.message %></td>
+            <td><%= m.ip %></td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  <% } %>
+</section>
+<%- include('partials/footer') %>

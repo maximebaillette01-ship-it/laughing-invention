@@ -1,0 +1,19 @@
+<%- include('partials/header') %>
+<section class="page-section narrow">
+  <h1>Connexion administrateur</h1>
+  <% if (error) { %>
+    <p class="error-list"><%= error %></p>
+  <% } %>
+  <form method="POST" action="/admin/login" class="form">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+    <label for="username">Identifiant</label>
+    <input type="text" id="username" name="username" autocomplete="username" required>
+
+    <label for="password">Mot de passe</label>
+    <input type="password" id="password" name="password" autocomplete="current-password" required>
+
+    <button type="submit" class="button">Se connecter</button>
+  </form>
+</section>
+<%- include('partials/footer') %>

@@ -1,0 +1,14 @@
+<%- include('partials/header') %>
+<section class="page-section">
+  <h1>À propos</h1>
+  <p>SecureSite est un site vitrine construit avec Node.js et Express, conçu selon les principes de « security by design » : chaque formulaire, chaque session et chaque en-tête HTTP est pensé pour limiter la surface d'attaque.</p>
+  <p>Ce projet illustre notamment :</p>
+  <ul>
+    <li>Des en-têtes de sécurité stricts (CSP, HSTS, etc.) via Helmet.</li>
+    <li>Une protection CSRF sur tous les formulaires sensibles.</li>
+    <li>Des mots de passe administrateur hachés avec bcrypt et un verrouillage de compte après plusieurs échecs.</li>
+    <li>Une limitation de débit (rate limiting) pour ralentir le brute-force et le spam.</li>
+    <li>Des requêtes SQL paramétrées pour éliminer le risque d'injection.</li>
+  </ul>
+</section>
+<%- include('partials/footer') %>
