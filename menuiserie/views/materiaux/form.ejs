@@ -1,0 +1,35 @@
+<%- include('../partials/header') %>
+<div class="page-header">
+  <h1><%= title %></h1>
+</div>
+
+<% if (errors.length) { %>
+  <ul class="error-list">
+    <% errors.forEach(function(e) { %><li><%= e.msg %></li><% }); %>
+  </ul>
+<% } %>
+
+<form method="POST" action="<%= materiau.id ? '/materiaux/' + materiau.id : '/materiaux' %>" class="form">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+  <label for="nom">Nom *</label>
+  <input type="text" id="nom" name="nom" value="<%= materiau.nom || '' %>" required>
+
+  <label for="unite">Unité * (m, m², m³, pièce, kg...)</label>
+  <input type="text" id="unite" name="unite" value="<%= materiau.unite || '' %>" required>
+
+  <label for="quantite">Quantité en stock *</label>
+  <input type="number" step="0.01" min="0" id="quantite" name="quantite" value="<%= materiau.quantite ?? 0 %>" required>
+
+  <label for="seuil_alerte">Seuil d'alerte (stock bas) *</label>
+  <input type="number" step="0.01" min="0" id="seuil_alerte" name="seuil_alerte" value="<%= materiau.seuil_alerte ?? 0 %>" required>
+
+  <label for="prix_unitaire">Prix unitaire (€)</label>
+  <input type="number" step="0.01" min="0" id="prix_unitaire" name="prix_unitaire" value="<%= materiau.prix_unitaire || '' %>">
+
+  <label for="fournisseur">Fournisseur</label>
+  <input type="text" id="fournisseur" name="fournisseur" value="<%= materiau.fournisseur || '' %>">
+
+  <button type="submit" class="button">Enregistrer</button>
+</form>
+<%- include('../partials/footer') %>

@@ -1,0 +1,42 @@
+<%- include('../partials/header') %>
+<div class="page-header">
+  <h1>Factures (<%= factures.length %>)</h1>
+  <a class="button" href="/factures/new">+ Nouvelle facture</a>
+</div>
+
+<% if (!factures.length) { %>
+  <p class="muted">Aucune facture pour le moment.</p>
+<% } else { %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Numéro</th>
+        <th>Client</th>
+        <th>Chantier</th>
+        <th>Échéance</th>
+        <th>Total TTC</th>
+        <th>Statut</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% factures.forEach(function(f) { %>
+        <tr class="<%= f.enRetard ? 'row-alert' : '' %>">
+          <td><a href="/factures/<%= f.id %>">FAC-<%= String(f.id).padStart(4, '0') %></a></td>
+          <td><a href="/clients/<%= f.client_id %>"><%= f.client_nom %></a></td>
+          <td><%= f.chantier_titre || '—' %></td>
+          <td><%= f.date_echeance || '—' %></td>
+          <td><%= f.total_ttc.toFixed(2) %> €</td>
+          <td>
+            <span class="badge badge-<%= f.statut %>"><%= STATUT_LABELS[f.statut] %></span>
+            <% if (f.enRetard) { %><span class="badge badge-retard">en retard</span><% } %>
+          </td>
+          <td class="table-actions">
+            <a class="button button-small button-secondary" href="/factures/<%= f.id %>/edit">Modifier</a>
+          </td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+<% } %>
+<%- include('../partials/footer') %>

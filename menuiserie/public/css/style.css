@@ -1,0 +1,403 @@
+:root {
+  --color-bg: #0f172a;
+  --color-surface: #1e293b;
+  --color-surface-2: #243044;
+  --color-border: #334155;
+  --color-text: #e2e8f0;
+  --color-muted: #94a3b8;
+  --color-accent: #38bdf8;
+  --color-accent-dark: #0284c7;
+  --color-success: #4ade80;
+  --color-warning: #fbbf24;
+  --color-error: #f87171;
+  --radius: 10px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+a {
+  color: var(--color-accent);
+}
+
+/* Layout principal avec navigation latérale */
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  background-color: var(--color-surface);
+  border-right: 1px solid var(--color-border);
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.brand {
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+.side-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.side-nav a {
+  color: var(--color-text);
+  text-decoration: none;
+  padding: 0.55rem 0.75rem;
+  border-radius: var(--radius);
+}
+
+.side-nav a:hover {
+  background-color: var(--color-surface-2);
+}
+
+.side-nav a.active {
+  background-color: var(--color-accent);
+  color: #0f172a;
+  font-weight: 600;
+}
+
+.main-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.topbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.topbar-user {
+  color: var(--color-muted);
+}
+
+.content {
+  flex: 1;
+  padding: 1.5rem 2rem 3rem;
+  max-width: 1100px;
+}
+
+/* Page login (sans sidebar) */
+.login-body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.login-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 2rem;
+  width: 100%;
+  max-width: 360px;
+  text-align: center;
+}
+
+.muted {
+  color: var(--color-muted);
+}
+
+/* En-têtes de page */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.page-header-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Boutons */
+.button {
+  display: inline-block;
+  background-color: var(--color-accent);
+  color: #0f172a;
+  font-weight: 600;
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--radius);
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+}
+
+.button:hover {
+  background-color: var(--color-accent-dark);
+  color: #fff;
+}
+
+.button-secondary {
+  background-color: transparent;
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
+
+.button-danger {
+  background-color: var(--color-error);
+  color: #1f0a0a;
+}
+
+.button-small {
+  padding: 0.35rem 0.75rem;
+  font-size: 0.85rem;
+}
+
+.inline-form {
+  display: inline-block;
+}
+
+/* Cartes */
+.card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.card h2 {
+  margin-top: 0;
+}
+
+/* Tableau de bord : cartes de statistiques */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  text-decoration: none;
+  color: var(--color-text);
+}
+
+.stat-card:hover {
+  border-color: var(--color-accent);
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.stat-label {
+  color: var(--color-muted);
+  font-size: 0.9rem;
+}
+
+.stat-card-warning .stat-value {
+  color: var(--color-warning);
+}
+
+.stat-card-danger .stat-value {
+  color: var(--color-error);
+}
+
+/* Listes liées (chantiers/devis/factures sur une fiche client) */
+.link-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Tableaux */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.5rem;
+}
+
+.table th,
+.table td {
+  border: 1px solid var(--color-border);
+  padding: 0.6rem;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.table th {
+  background-color: var(--color-surface-2);
+}
+
+.table-actions {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.row-alert td {
+  background-color: rgba(248, 113, 113, 0.12);
+}
+
+/* Badges de statut */
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  background-color: var(--color-surface-2);
+  color: var(--color-muted);
+}
+
+.badge-en_cours,
+.badge-envoye,
+.badge-envoyee {
+  background-color: rgba(56, 189, 248, 0.18);
+  color: var(--color-accent);
+}
+
+.badge-termine,
+.badge-accepte,
+.badge-payee {
+  background-color: rgba(74, 222, 128, 0.18);
+  color: var(--color-success);
+}
+
+.badge-annule,
+.badge-refuse,
+.badge-retard {
+  background-color: rgba(248, 113, 113, 0.18);
+  color: var(--color-error);
+}
+
+.badge-en_attente,
+.badge-brouillon {
+  background-color: rgba(251, 191, 36, 0.18);
+  color: var(--color-warning);
+}
+
+/* Formulaires */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-top: 1rem;
+  max-width: 720px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form label {
+  font-weight: 600;
+  margin-top: 0.6rem;
+}
+
+.form input,
+.form select,
+.form textarea {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 0.6rem 0.75rem;
+  color: var(--color-text);
+  font: inherit;
+  width: 100%;
+}
+
+.form button {
+  margin-top: 1.25rem;
+  align-self: flex-start;
+}
+
+.error-list {
+  color: var(--color-error);
+  padding-left: 1.2rem;
+}
+
+/* Lignes de devis/factures */
+.lignes-table input {
+  width: 100%;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 0.4rem 0.5rem;
+  color: var(--color-text);
+  font: inherit;
+}
+
+.ligne-total-cell {
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.totaux-preview {
+  margin-top: 1rem;
+  text-align: right;
+}
+
+.totaux-preview p {
+  margin: 0.2rem 0;
+}
+
+.site-footer {
+  text-align: center;
+  color: var(--color-muted);
+  padding: 1.5rem;
+  font-size: 0.875rem;
+}
+
+/* Impression (devis/factures) */
+@media print {
+  .sidebar,
+  .topbar,
+  .no-print,
+  .site-footer {
+    display: none !important;
+  }
+  body,
+  .content {
+    background: #fff;
+    color: #000;
+  }
+  .card {
+    border-color: #ccc;
+  }
+}

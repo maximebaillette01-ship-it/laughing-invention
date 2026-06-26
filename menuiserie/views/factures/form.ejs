@@ -1,0 +1,96 @@
+<%- include('../partials/header') %>
+<div class="page-header">
+  <h1><%= title %></h1>
+</div>
+
+<% if (errors.length) { %>
+  <ul class="error-list">
+    <% errors.forEach(function(e) { %><li><%= e.msg %></li><% }); %>
+  </ul>
+<% } %>
+
+<form method="POST" action="<%= facture.id ? '/factures/' + facture.id : '/factures' %>" class="form">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+  <div class="form-row">
+    <div>
+      <label for="client_id">Client *</label>
+      <select id="client_id" name="client_id" required>
+        <option value="">— Sélectionner —</option>
+        <% clients.forEach(function(c) { %>
+          <option value="<%= c.id %>" <%= String(facture.client_id) === String(c.id) ? 'selected' : '' %>><%= c.nom %></option>
+        <% }); %>
+      </select>
+    </div>
+    <div>
+      <label for="chantier_id">Chantier (optionnel)</label>
+      <select id="chantier_id" name="chantier_id">
+        <option value="">— Aucun —</option>
+        <% chantiers.forEach(function(ch) { %>
+          <option value="<%= ch.id %>" <%= String(facture.chantier_id) === String(ch.id) ? 'selected' : '' %>><%= ch.titre %> (<%= ch.client_nom %>)</option>
+        <% }); %>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div>
+      <label for="date_echeance">Date d'échéance</label>
+      <input type="date" id="date_echeance" name="date_echeance" value="<%= facture.date_echeance || '' %>">
+    </div>
+    <div>
+      <label for="taux_tva">Taux de TVA (%) *</label>
+      <input type="number" step="0.01" min="0" max="100" id="taux_tva" name="taux_tva" value="<%= facture.taux_tva ?? 20 %>" required>
+    </div>
+  </div>
+
+  <h2>Lignes</h2>
+  <table id="lignes-table" class="table lignes-table">
+    <thead>
+      <tr>
+        <th>Description</th>
+        <th>Quantité</th>
+        <th>Unité</th>
+        <th>Prix unitaire (€)</th>
+        <th>Total</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% lignes.forEach(function(l) { %>
+        <tr class="ligne-row">
+          <td><input type="text" name="description" class="ligne-desc" value="<%= l.description || '' %>" placeholder="Description"></td>
+          <td><input type="number" step="0.01" min="0" name="quantite" class="ligne-qte" value="<%= l.quantite ?? 1 %>"></td>
+          <td><input type="text" name="unite" class="ligne-unite" value="<%= l.unite || '' %>" placeholder="m, pièce..."></td>
+          <td><input type="number" step="0.01" min="0" name="prix_unitaire" class="ligne-prix" value="<%= l.prix_unitaire ?? 0 %>"></td>
+          <td class="ligne-total-cell">0.00 €</td>
+          <td><button type="button" class="button button-small button-danger remove-ligne">✕</button></td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+  <template id="ligne-template">
+    <tr class="ligne-row">
+      <td><input type="text" name="description" class="ligne-desc" placeholder="Description"></td>
+      <td><input type="number" step="0.01" min="0" name="quantite" class="ligne-qte" value="1"></td>
+      <td><input type="text" name="unite" class="ligne-unite" placeholder="m, pièce..."></td>
+      <td><input type="number" step="0.01" min="0" name="prix_unitaire" class="ligne-prix" value="0"></td>
+      <td class="ligne-total-cell">0.00 €</td>
+      <td><button type="button" class="button button-small button-danger remove-ligne">✕</button></td>
+    </tr>
+  </template>
+  <button type="button" id="add-ligne" class="button button-small button-secondary">+ Ajouter une ligne</button>
+
+  <div class="totaux-preview">
+    <p>Total HT : <strong id="preview-total-ht">0.00 €</strong></p>
+    <p>TVA : <strong id="preview-total-tva">0.00 €</strong></p>
+    <p>Total TTC : <strong id="preview-total-ttc">0.00 €</strong></p>
+  </div>
+
+  <label for="notes">Notes</label>
+  <textarea id="notes" name="notes" rows="3"><%= facture.notes || '' %></textarea>
+
+  <button type="submit" class="button">Enregistrer</button>
+</form>
+<script src="/js/lignes.js" defer></script>
+<%- include('../partials/footer') %>

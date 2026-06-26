@@ -1,0 +1,50 @@
+<%- include('../partials/header') %>
+<div class="page-header">
+  <h1><%= title %></h1>
+</div>
+
+<% if (errors.length) { %>
+  <ul class="error-list">
+    <% errors.forEach(function(e) { %><li><%= e.msg %></li><% }); %>
+  </ul>
+<% } %>
+
+<form method="POST" action="<%= chantier.id ? '/chantiers/' + chantier.id : '/chantiers' %>" class="form">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+  <label for="client_id">Client *</label>
+  <select id="client_id" name="client_id" required>
+    <option value="">— Sélectionner —</option>
+    <% clients.forEach(function(c) { %>
+      <option value="<%= c.id %>" <%= String(chantier.client_id) === String(c.id) ? 'selected' : '' %>><%= c.nom %></option>
+    <% }); %>
+  </select>
+
+  <label for="titre">Titre *</label>
+  <input type="text" id="titre" name="titre" value="<%= chantier.titre || '' %>" required>
+
+  <label for="description">Description</label>
+  <textarea id="description" name="description" rows="3"><%= chantier.description || '' %></textarea>
+
+  <label for="adresse">Adresse du chantier</label>
+  <input type="text" id="adresse" name="adresse" value="<%= chantier.adresse || '' %>">
+
+  <label for="statut">Statut *</label>
+  <select id="statut" name="statut" required>
+    <% statuts.forEach(function(s) { %>
+      <option value="<%= s %>" <%= chantier.statut === s ? 'selected' : '' %>><%= STATUT_LABELS[s] %></option>
+    <% }); %>
+  </select>
+
+  <label for="date_debut">Date de début</label>
+  <input type="date" id="date_debut" name="date_debut" value="<%= chantier.date_debut || '' %>">
+
+  <label for="date_fin_prevue">Date de fin prévue</label>
+  <input type="date" id="date_fin_prevue" name="date_fin_prevue" value="<%= chantier.date_fin_prevue || '' %>">
+
+  <label for="date_fin_reelle">Date de fin réelle</label>
+  <input type="date" id="date_fin_reelle" name="date_fin_reelle" value="<%= chantier.date_fin_reelle || '' %>">
+
+  <button type="submit" class="button">Enregistrer</button>
+</form>
+<%- include('../partials/footer') %>

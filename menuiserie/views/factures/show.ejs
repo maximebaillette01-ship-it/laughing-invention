@@ -1,0 +1,62 @@
+<%- include('../partials/header') %>
+<div class="page-header">
+  <h1>Facture FAC-<%= String(facture.id).padStart(4, '0') %>
+    <span class="badge badge-<%= facture.statut %>"><%= STATUT_LABELS[facture.statut] %></span>
+    <% if (enRetard) { %><span class="badge badge-retard">en retard</span><% } %>
+  </h1>
+  <div class="page-header-actions">
+    <a class="button button-secondary" href="/factures/<%= facture.id %>/edit">Modifier</a>
+    <form method="POST" action="/factures/<%= facture.id %>/delete" class="inline-form" onsubmit="return confirm('Supprimer cette facture ?');">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <button type="submit" class="button button-danger">Supprimer</button>
+    </form>
+  </div>
+</div>
+
+<section class="card">
+  <p><strong>Client :</strong> <a href="/clients/<%= facture.client_id %>"><%= facture.client_nom %></a></p>
+  <% if (facture.chantier_titre) { %><p><strong>Chantier :</strong> <a href="/chantiers/<%= facture.chantier_id %>"><%= facture.chantier_titre %></a></p><% } %>
+  <% if (facture.devis_id) { %><p><strong>Devis d'origine :</strong> <a href="/devis/<%= facture.devis_id %>">DEV-<%= String(facture.devis_id).padStart(4, '0') %></a></p><% } %>
+  <p><strong>Date d'émission :</strong> <%= facture.date_emission.slice(0, 10) %> · <strong>Échéance :</strong> <%= facture.date_echeance || '—' %></p>
+  <% if (facture.notes) { %><p><strong>Notes :</strong> <%= facture.notes %></p><% } %>
+</section>
+
+<section class="card">
+  <table class="table">
+    <thead>
+      <tr><th>Description</th><th>Quantité</th><th>Unité</th><th>Prix unitaire</th><th>Total</th></tr>
+    </thead>
+    <tbody>
+      <% lignes.forEach(function(l) { %>
+        <tr>
+          <td><%= l.description %></td>
+          <td><%= l.quantite %></td>
+          <td><%= l.unite || '—' %></td>
+          <td><%= l.prix_unitaire.toFixed(2) %> €</td>
+          <td><%= l.total.toFixed(2) %> €</td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+  <div class="totaux-preview">
+    <p>Total HT : <strong><%= facture.total_ht.toFixed(2) %> €</strong></p>
+    <p>TVA (<%= facture.taux_tva %>%) : <strong><%= facture.total_tva.toFixed(2) %> €</strong></p>
+    <p>Total TTC : <strong><%= facture.total_ttc.toFixed(2) %> €</strong></p>
+  </div>
+</section>
+
+<section class="card no-print">
+  <h2>Statut</h2>
+  <form method="POST" action="/factures/<%= facture.id %>/statut" class="inline-form">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <select name="statut">
+      <% STATUTS.forEach(function(s) { %>
+        <option value="<%= s %>" <%= facture.statut === s ? 'selected' : '' %>><%= STATUT_LABELS[s] %></option>
+      <% }); %>
+    </select>
+    <button type="submit" class="button button-small">Mettre à jour le statut</button>
+  </form>
+
+  <button type="button" class="button button-secondary" onclick="window.print()" style="margin-top: 0.75rem;">Imprimer</button>
+</section>
+<%- include('../partials/footer') %>

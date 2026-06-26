@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %> · Menuiserie</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="login-body">
+  <section class="login-card">
+    <h1>🪵 Menuiserie</h1>
+    <p class="muted">Connexion à l'espace de gestion</p>
+    <% if (error) { %>
+      <p class="error-list"><%= error %></p>
+    <% } %>
+    <form method="POST" action="/login" class="form">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+      <label for="username">Identifiant</label>
+      <input type="text" id="username" name="username" autocomplete="username" required>
+
+      <label for="password">Mot de passe</label>
+      <input type="password" id="password" name="password" autocomplete="current-password" required>
+
+      <button type="submit" class="button">Se connecter</button>
+    </form>
+  </section>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<%- include('../partials/header') %>
+<div class="page-header">
+  <h1>Clients (<%= clients.length %>)</h1>
+  <a class="button" href="/clients/new">+ Nouveau client</a>
+</div>
+
+<% if (!clients.length) { %>
+  <p class="muted">Aucun client pour le moment.</p>
+<% } else { %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Entreprise</th>
+        <th>E-mail</th>
+        <th>Téléphone</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% clients.forEach(function(c) { %>
+        <tr>
+          <td><a href="/clients/<%= c.id %>"><%= c.nom %></a></td>
+          <td><%= c.entreprise || '—' %></td>
+          <td><%= c.email || '—' %></td>
+          <td><%= c.telephone || '—' %></td>
+          <td class="table-actions">
+            <a class="button button-small button-secondary" href="/clients/<%= c.id %>/edit">Modifier</a>
+          </td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+<% } %>
+<%- include('../partials/footer') %>
