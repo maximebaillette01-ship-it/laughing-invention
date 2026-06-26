@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Atelier Menuiserie — Gestion d'entreprise</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <button class="hamburger" id="nav-toggle" aria-label="Ouvrir le menu">☰</button>
+      <h1 class="app-title">🪵 Atelier Menuiserie</h1>
+    </header>
+    <nav class="sidebar" id="sidebar">
+      <a class="nav-link" data-section="dashboard" href="#/dashboard">Tableau de bord</a>
+      <a class="nav-link" data-section="clients" href="#/clients">Clients</a>
+      <a class="nav-link" data-section="materiaux" href="#/materiaux">Matériaux / Stock</a>
+      <a class="nav-link" data-section="chantiers" href="#/chantiers">Chantiers</a>
+      <a class="nav-link" data-section="devis" href="#/devis">Devis</a>
+      <a class="nav-link" data-section="factures" href="#/factures">Factures</a>
+      <a class="nav-link" data-section="parametres" href="#/parametres">Paramètres</a>
+    </nav>
+    <main id="view-root" class="content"></main>
+  </div>
+  <div id="toast" class="toast"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
